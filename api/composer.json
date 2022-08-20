@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "guzzlehttp/guzzle": "^7.4",
+        "lexik/jwt-authentication-bundle": "^2.16",
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.3",
         "symfony/asset": "6.1.*",
@@ -20,6 +21,7 @@
         "symfony/expression-language": "6.1.*",
         "symfony/flex": "^2.2",
         "symfony/framework-bundle": "6.1.*",
+        "symfony/http-client": "6.1.*",
         "symfony/mercure-bundle": "^0.3.5",
         "symfony/monolog-bundle": "^3.8",
         "symfony/property-access": "6.1.*",
@@ -33,6 +35,7 @@
     },
     "require-dev": {
         "api-platform/schema-generator": "^4.0",
+        "hautelook/alice-bundle": "^2.11",
         "symfony/browser-kit": "6.1.*",
         "symfony/css-selector": "6.1.*",
         "symfony/debug-bundle": "6.1.*",
