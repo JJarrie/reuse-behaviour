@@ -40,6 +40,15 @@ jobs:
         run: |
           docker compose exec -T php bin/console -e test doctrine:database:create
           docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
+      - name: Generate keys
+        run: |
+          docker compose exec -T php sh -c '
+            set -e
+            apk add openssl
+            php bin/console lexik:jwt:generate-keypair
+            setfacl -R -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
+            setfacl -dR -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
+          '
       - name: PHPUnit
         run: docker compose exec -T php bin/phpunit
       - name: Doctrine Schema Validator
