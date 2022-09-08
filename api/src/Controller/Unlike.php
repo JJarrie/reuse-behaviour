@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Article;
+namespace App\Controller;
 
 use App\Entity\Article;
 use App\Like\LikableInterface;
@@ -10,14 +10,14 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Security\Core\Security;
 
 #[AsController]
-class UnlikeArticle extends AbstractController
+class Unlike extends AbstractController
 {
     public function __construct(private readonly LikeHandler $likeHandler,
                                 private readonly Security    $security)
     {
     }
 
-    public function __invoke(Article $data): LikableInterface
+    public function __invoke(LikableInterface $data): LikableInterface
     {
         return $this->likeHandler->unlike($data, $this->security->getToken()->getUser());
     }

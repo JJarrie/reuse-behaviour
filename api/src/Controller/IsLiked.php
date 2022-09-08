@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Comment;
+namespace App\Controller;
 
-use App\Entity\Comment;
+use App\Entity\Article;
 use App\Like\LikableInterface;
 use App\Like\LikeHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,15 +10,15 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Security\Core\Security;
 
 #[AsController]
-class LikeComment extends AbstractController
+class IsLiked extends AbstractController
 {
     public function __construct(private readonly LikeHandler $likeHandler,
                                 private readonly Security    $security)
     {
     }
 
-    public function __invoke(Comment $data): LikableInterface
+    public function __invoke(LikableInterface $data): bool
     {
-        return $this->likeHandler->like($data, $this->security->getToken()->getUser());
+        return $this->likeHandler->isLiked($data, $this->security->getToken()->getUser());
     }
 }
