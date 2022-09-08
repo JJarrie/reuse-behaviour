@@ -5,15 +5,30 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use App\Controller\Comment\IsLikedComment;
+use App\Controller\Comment\LikeComment;
+use App\Controller\Comment\UnlikeComment;
+use App\Like\DoctrineLikeFieldTrait;
+use App\Like\LikableInterface;
+use App\Like\LikableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity]
-class Comment
+#[Get]
+#[GetCollection]
+#[Post]
+#[Post(uriTemplate: '/comments/{id}/like', controller: LikeComment::class)]
+#[Post(uriTemplate: '/comments/{id}/unlike', controller: UnlikeComment::class)]
+#[Get(uriTemplate: '/comments/{id}/is_liked', controller: IsLikedComment::class)]
+class Comment implements LikableInterface
 {
+    use DoctrineLikeFieldTrait, LikableTrait;
+
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue]
@@ -25,17 +40,6 @@ class Comment
 
     #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'comments')]
     public Article $article;
-
-    #[ORM\ManyToOne(targetEntity: Comment::class, inversedBy: 'comments')]
-    public ?Comment $parent;
-
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Comment::class, orphanRemoval: true)]
-    public Collection $comments;
-
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {

@@ -5,17 +5,35 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use App\Controller\Article\IsLikedArticle;
+use App\Controller\Article\LikeArticle;
+use App\Controller\Article\UnlikeArticle;
+use App\Like\DoctrineLikeFieldTrait;
+use App\Like\LikableInterface;
+use App\Like\LikableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(mercure: true)]
+#[Get]
+#[GetCollection]
+#[Post]
+#[Post(uriTemplate: '/articles/{id}/like', controller: LikeArticle::class)]
+#[Post(uriTemplate: '/articles/{id}/unlike', controller: UnlikeArticle::class)]
+#[Get(uriTemplate: '/articles/{id}/is_liked', controller: IsLikedArticle::class)]
 #[ORM\Entity]
-class Article
+class Article implements LikableInterface
 {
+    use DoctrineLikeFieldTrait, LikableTrait;
+
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
