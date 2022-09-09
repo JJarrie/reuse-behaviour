@@ -26,3 +26,15 @@ services:
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@.inner' ]
+    
+    _instanceof:
+        App\Like\LikableInterface:
+            tags: [ 'app.likable' ]
+
+    App\Like\LikeResourceMetadataCollectionFactory:
+        decorates: 'api_platform.metadata.resource.metadata_collection_factory'
+        decoration_priority: 100
+        arguments: [ '@.inner', '@api_platform.path_segment_name_generator', '@api_platform.metadata.resource.link_factory' ]
+
+    App\Like\LikeResourceOperationSubscriber:
+        tags: [ 'kernel.event_subscriber' ]

@@ -3,6 +3,8 @@
 namespace App\Like;
 
 use ApiPlatform\Api\IriConverterInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class LikeHandler
