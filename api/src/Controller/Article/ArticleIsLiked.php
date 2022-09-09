@@ -11,8 +11,10 @@ use Symfony\Component\Security\Core\Security;
 #[AsController]
 class ArticleIsLiked extends AbstractController
 {
-    public function __construct(private readonly IriConverterInterface $iriConverter,
-                                private readonly Security              $security)
+    public function __construct(
+        private readonly IriConverterInterface $iriConverter,
+        private readonly Security              $security,
+    )
     {
     }
 

@@ -11,8 +11,10 @@ use Symfony\Component\Security\Core\Security;
 #[AsController]
 class CommentIsLiked extends AbstractController
 {
-    public function __construct(private readonly IriConverterInterface $iriConverter,
-                                private readonly Security              $security)
+    public function __construct(
+        private readonly IriConverterInterface $iriConverter,
+        private readonly Security              $security,
+    )
     {
     }
 
