@@ -24,10 +24,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Get]
 #[GetCollection]
 #[Post]
+#[ORM\Entity]
 #[Post(uriTemplate: '/articles/{id}/like', controller: Like::class)]
 #[Post(uriTemplate: '/articles/{id}/unlike', controller: Unlike::class)]
 #[Get(uriTemplate: '/articles/{id}/is_liked', controller: IsLiked::class)]
-#[ORM\Entity]
 class Article implements LikableInterface
 {
     use DoctrineLikeFieldTrait, LikableTrait;
