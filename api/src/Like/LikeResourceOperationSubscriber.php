@@ -14,8 +14,8 @@ use Symfony\Component\Security\Core\Security;
 class LikeResourceOperationSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly Security $security,
-        private readonly LikeHandler $likeHandler,
+        private readonly Security               $security,
+        private readonly LikeHandler            $likeHandler,
         private readonly EntityManagerInterface $entityManager,
     )
     {
@@ -31,6 +31,7 @@ class LikeResourceOperationSubscriber implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event): void
     {
         $attributes = RequestAttributesExtractor::extractAttributes($event->getRequest());
+        $user = $this->security->getToken()->getUser();
 
         if (!array_key_exists('resource_class', $attributes)
             || !in_array(LikableInterface::class, class_implements($attributes['resource_class']), true)) {
@@ -38,16 +39,19 @@ class LikeResourceOperationSubscriber implements EventSubscriberInterface
         }
 
         if (preg_match('/_api_\w+_is_liked_get/', $attributes['operation_name'])) {
-            $event->setResponse(new Response($this->likeHandler->isLiked($attributes['previous_data'], $this->security->getToken()->getUser())));
+            $isLiked = $this->likeHandler->isLiked($attributes['previous_data'], $user);
+            $event->setResponse(new Response($isLiked));
         }
 
         if (preg_match('/_api_\w+_like_post/', $attributes['operation_name'])) {
-            $this->likeHandler->like($event->getRequest()->attributes->get('data'), $this->security->getToken()->getUser());
+            $likable = $event->getRequest()->attributes->get('data');
+            $this->likeHandler->like($likable, $user);
             $this->entityManager->flush();
         }
 
         if (preg_match('/_api_\w+_unlike_post/', $attributes['operation_name'])) {
-            $this->likeHandler->unlike($event->getRequest()->attributes->get('data'), $this->security->getToken()->getUser());
+            $likable = $event->getRequest()->attributes->get('data');
+            $this->likeHandler->unlike($likable, $user);
             $this->entityManager->flush();
         }
     }

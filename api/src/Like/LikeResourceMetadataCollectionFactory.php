@@ -12,9 +12,6 @@ use ApiPlatform\Metadata\Resource\Factory\LinkFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use ApiPlatform\Operation\PathSegmentNameGeneratorInterface;
-use App\Controller\IsLiked;
-use App\Controller\Like;
-use App\Controller\Unlike;
 
 class LikeResourceMetadataCollectionFactory implements ResourceMetadataCollectionFactoryInterface
 {
