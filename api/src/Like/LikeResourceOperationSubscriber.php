@@ -31,7 +31,7 @@ class LikeResourceOperationSubscriber implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event): void
     {
         $attributes = RequestAttributesExtractor::extractAttributes($event->getRequest());
-        $user = $this->security->getToken()->getUser();
+        $user = $this->security->getUser();
 
         if (!array_key_exists('resource_class', $attributes)
             || !in_array(LikableInterface::class, class_implements($attributes['resource_class']), true)) {
@@ -47,12 +47,14 @@ class LikeResourceOperationSubscriber implements EventSubscriberInterface
             $likable = $event->getRequest()->attributes->get('data');
             $this->likeHandler->like($likable, $user);
             $this->entityManager->flush();
+            $event->setResponse(new Response(null, Response::HTTP_CREATED));
         }
 
-        if (preg_match('/_api_\w+_unlike_post/', $attributes['operation_name'])) {
+        if (preg_match('/_api_\w+_like_delete/', $attributes['operation_name'])) {
             $likable = $event->getRequest()->attributes->get('data');
             $this->likeHandler->unlike($likable, $user);
             $this->entityManager->flush();
+            $event->setResponse(new Response(null, Response::HTTP_NO_CONTENT));
         }
     }
 }
