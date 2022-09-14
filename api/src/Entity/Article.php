@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -22,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[GetCollection]
 #[Post]
 #[Post(uriTemplate: '/articles/{id}/like', controller: ArticleLike::class)]
-#[Post(uriTemplate: '/articles/{id}/unlike', controller: ArticleUnlike::class)]
+#[Delete(uriTemplate: '/articles/{id}/like', controller: ArticleUnlike::class)]
 #[Get(uriTemplate: '/articles/{id}/is_liked', controller: ArticleIsLiked::class)]
 #[ORM\Entity]
 class Article

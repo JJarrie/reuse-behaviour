@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
@@ -21,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[GetCollection]
 #[Post]
 #[Post(uriTemplate: '/comments/{id}/like', controller: CommentLike::class)]
-#[Post(uriTemplate: '/comments/{id}/unlike', controller: CommentUnlike::class)]
+#[Delete(uriTemplate: '/comments/{id}/like', controller: CommentUnlike::class)]
 #[Get(uriTemplate: '/comments/{id}/is_liked', controller: CommentIsLiked::class)]
 class Comment
 {
