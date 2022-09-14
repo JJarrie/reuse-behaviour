@@ -11,8 +11,10 @@ use Symfony\Component\Security\Core\Security;
 #[AsController]
 class IsLikedComment extends AbstractController
 {
-    public function __construct(private readonly LikeHandler $likeHandler,
-                                private readonly Security    $security)
+    public function __construct(
+        private readonly LikeHandler $likeHandler,
+        private readonly Security    $security,
+    )
     {
     }
 
