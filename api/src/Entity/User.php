@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUser;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[ApiResource]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUserInterface
 {
     #[ORM\Id]
